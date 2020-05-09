@@ -101,3 +101,10 @@ interface Config {
   setReleaseDate?: boolean;
 }
 ```
+
+### Environmental variables
+
+The plugin requires you to set following env variables:
+
+* JIRA_AUTH when you use `basic auth` with `base64` email and password
+* JIRA_TOKEN and JIRA_EMAIL in case of using `authentication token` with an `email`

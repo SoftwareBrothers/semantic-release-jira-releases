@@ -9,7 +9,8 @@
     "prepublishOnly": "mkdir -p dist && rm -rf dist && tsc -p .",
     "lint": "tslint -p .",
     "build": "tsc -p .",
-    "test": " yarn jest"
+    "test": " yarn jest",
+    "postinstall": "tsc -p ."
   },
   "dependencies": {
     "@semantic-release/error": "^2.2.0",

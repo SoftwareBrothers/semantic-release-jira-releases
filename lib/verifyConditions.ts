@@ -52,9 +52,19 @@ export async function verifyConditions(config: PluginConfig, context: PluginCont
     throw new SemanticReleaseError(`config.networkConcurrency must be an number greater than 0`);
   }
 
-  if (!context.env.JIRA_AUTH) {
-    throw new SemanticReleaseError(`JIRA_AUTH must be a string`);
+  if (!context.env.JIRA_AUTH && (!context.env.JIRA_TOKEN || !context.env.JIRA_EMAIL)) {
+    throw new SemanticReleaseError(
+      `you have to set environmental variables: either JIRA_AUTH or JIRA_TOKEN with JIRA_EMAIL`,
+    );
   }
   const jira = makeClient(config, context);
-  await jira.project.getProject({ projectIdOrKey: config.projectId });
+  let project;
+  try {
+    project = await jira.project.getProject({ projectIdOrKey: config.projectId });
+  } catch (error) {
+    // tslint:disable-next-line: no-console
+    console.log('We cannot connect with your JIRA host', error);
+    throw error;
+  }
+  return project;
 }
